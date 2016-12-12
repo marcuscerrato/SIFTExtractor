@@ -35,9 +35,9 @@ public class SIFTExtractor
     			DoGSIFTEngine siftEngine = new DoGSIFTEngine();
     			LocalFeatureList<Keypoint> frameKeypoints = siftEngine.findFeatures(keyframe.imageAtBoundary.flatten());
     			//If generate keyframes option is set
-    			if(args[3].compareTo("-k") == 0)
+    			if(args[3] != null && args[3].compareTo("-k") == 0)
     			{
-    				String folder = "keyframes/";
+    				String folder = args[4];
     				String keyframeName = "s" + String.format("%04d", shotNum) + "kf" + String.format("%04d", kfNum) + ".jpg";
     				ImageUtilities.write(keyframe.imageAtBoundary, new File(folder + keyframeName));
     			}
