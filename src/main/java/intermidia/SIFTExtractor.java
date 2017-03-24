@@ -38,6 +38,18 @@ public class SIFTExtractor
     				ImageUtilities.write(keyframe.imageAtBoundary, new File(folder + keyframeName));
     			}TODO END*/
     			
+    			//If the keyframe is empty, generate a dummy sift point.
+    			if(frameKeypoints.size() == 0)
+    			{
+    				output.write(Integer.toString(shotNum));
+    				//Prints dummy feature vector
+    				for(int j = 0; j < 128; j++)
+    				{
+    					output.write(" " + ((byte)127));
+    				}
+    				output.write("\n");    				
+    			}
+    			
     			for(Keypoint keypoint: frameKeypoints)
     			{
     				//Prints shot number
