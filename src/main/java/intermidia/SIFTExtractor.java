@@ -26,7 +26,7 @@ public class SIFTExtractor
     	{ 	
     		for(VideoKeyframe<MBFImage> keyframe: shot.getKeyFrameList())
     		{
-    			System.out.println("Processing Shot " + shotNum);
+    			//System.out.println("Processing Shot " + shotNum);
     			DoGSIFTEngine siftEngine = new DoGSIFTEngine();
     			LocalFeatureList<Keypoint> frameKeypoints = siftEngine.findFeatures(keyframe.imageAtBoundary.flatten());
     			
