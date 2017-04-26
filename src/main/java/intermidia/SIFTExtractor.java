@@ -25,19 +25,10 @@ public class SIFTExtractor
     	for(Shot shot: shotList.getList())
     	{ 	
     		for(VideoKeyframe<MBFImage> keyframe: shot.getKeyFrameList())
-    		{
-    			//System.out.println("Processing Shot " + shotNum);
+    		{    			
     			DoGSIFTEngine siftEngine = new DoGSIFTEngine();
     			LocalFeatureList<Keypoint> frameKeypoints = siftEngine.findFeatures(keyframe.imageAtBoundary.flatten());
-    			
-    			//If generate keyframes option is set  TODO REMOVE IT SOMETIME
-    			/*if(args[3] != null && args[3].compareTo("-k") == 0)
-    			{
-    				String folder = args[4];
-    				String keyframeName = "s" + String.format("%04d", shotNum) + "kf" + String.format("%04d", kfNum) + ".jpg";
-    				ImageUtilities.write(keyframe.imageAtBoundary, new File(folder + keyframeName));
-    			}TODO END*/
-    			
+    			  			
     			//If the keyframe is empty, generate a dummy sift point.
     			if(frameKeypoints.size() == 0)
     			{
