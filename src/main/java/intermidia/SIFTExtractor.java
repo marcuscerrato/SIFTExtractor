@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import org.openimaj.feature.ByteFV;
 import org.openimaj.feature.local.list.LocalFeatureList;
 import org.openimaj.image.MBFImage;
+import org.openimaj.image.feature.local.engine.DoGColourSIFTEngine;
 import org.openimaj.image.feature.local.engine.DoGSIFTEngine;
 import org.openimaj.image.feature.local.keypoints.Keypoint;
 import org.openimaj.video.processing.shotdetector.VideoKeyframe;
@@ -15,20 +16,34 @@ import TVSSUtils.KeyframeReader;
 
 public class SIFTExtractor 
 {
-	/*Usage: <in: keyframe folder> <out: sift keypoints file>*/
+	/*Usage: <in: keyframe folder> <out: sift keypoints file> <in: csift flag>*/
     public static void main( String[] args ) throws Exception
     { 	
     	ShotList shotList = KeyframeReader.readFromFolder(args[0]);
     	FileWriter output = new FileWriter(args[1]);
+    	boolean csift = false;
+    	if(args.length > 2 && args[2].compareToIgnoreCase("csift") == 0)
+    	{
+    		csift = true;
+    	}
+    		
     	
     	int shotNum = 0;
     	for(Shot shot: shotList.getList())
     	{ 	
     		for(VideoKeyframe<MBFImage> keyframe: shot.getKeyFrameList())
-    		{    			
-    			DoGSIFTEngine siftEngine = new DoGSIFTEngine();
-    			LocalFeatureList<Keypoint> frameKeypoints = siftEngine.findFeatures(keyframe.imageAtBoundary.flatten());
-    			  			
+    		{    
+    			LocalFeatureList<Keypoint> frameKeypoints;
+    			if(csift)
+    			{
+	    			DoGColourSIFTEngine siftEngine = new DoGColourSIFTEngine();
+	    			frameKeypoints = siftEngine.findFeatures(keyframe.imageAtBoundary);
+    			}else
+    			{
+    				DoGSIFTEngine siftEngine = new DoGSIFTEngine();
+    				frameKeypoints = siftEngine.findFeatures(keyframe.imageAtBoundary.flatten());    				
+    			}
+    			
     			//If the keyframe is empty, generate a dummy sift point.
     			if(frameKeypoints.size() == 0)
     			{
