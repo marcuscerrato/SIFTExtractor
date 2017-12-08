@@ -49,7 +49,8 @@ public class SIFTExtractor
     			{
     				output.write(Integer.toString(shotNum));
     				//Prints dummy feature vector
-    				for(int j = 0; j < 128; j++)
+    				int ivecLen = csift == true ? 384 : 128;
+    				for(int j = 0; j < ivecLen; j++)
     				{
     					output.write(" " + ((byte)127));
     				}
